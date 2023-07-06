@@ -1,4 +1,4 @@
-const users = [
+let users = [
   {
     email: 'lucas',
     senha: 'lucas..99'
@@ -13,12 +13,20 @@ const users = [
   }
 ]
 
+
 function validaUser(email, password) {
   const user = users.find((user) => user.email === email && user.senha === password)
   return user === undefined ? false : true
 }
-function crearUser(email, password) {
-    
+
+
+function createUser(email, password) {
+
+  users.push({
+    email: email,
+    senha: password
+  })
+  console.log(users)
 }
 
-export { validaUser }
+export { validaUser, createUser }

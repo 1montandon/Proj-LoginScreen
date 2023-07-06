@@ -1,15 +1,42 @@
 <script setup>
 import { ref } from 'vue'
 import { RouterLink, RouterView, useRouter } from 'vue-router'
+import { createUser }  from "@/_data/BancoLogin.js"
+const router = useRouter()
+
 
 const email = ref('')
 const password = ref('')
+const passwordConf = ref('')
+const errors = ref('');
+const showError = ref(false)
 
+function submitForm() {    
+createUser(email.value, password.value),
+router.push('/TesteSIM')
+if (!/^[^@]+@\w+(\.\w+)+\w$/.test(email.value)) {
+        errors.value = 'Email invalido!';
+        showError.value = true
+}
+else if(password.value != passwordConf.value){
+    errors.value = 'As senhas não conferem!';
+    showError.value = true
+}
+else if(password.value.length < 3){
+    errors.value = 'Senha muito curta!';
+    showError.value = true
+}else{
+    errors.value = '';
+    showError.value = false;
+    createUser(email.value, password.value),
+    router.push('/TesteSIM')
+}
+}
 </script>
 
 <template>
   <main>
-      <form class="registro" @submit.prevent="">
+      <form class="registro" @submit.prevent="submitForm">
         <div class="loginTitle"><h1>CADASTRE-SE</h1></div>
         <input class="inputs" v-model="email" placeholder="Digite seu Email"  />
         <div class="error">
